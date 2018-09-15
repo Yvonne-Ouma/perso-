@@ -2,7 +2,7 @@ from flask import Flask
 from . import main
 from flask import render_template
 # ,redirect, request, url_for,abort,flash
-# from flask_login import login_required, current_user
+from flask_login import login_required, current_user
 from ..models import User
 # from .forms import MinutePitchForm,UpdateProfile,CommentForm
 from .. import db
