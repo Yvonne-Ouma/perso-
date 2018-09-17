@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,TextAreaField,SubmitField,SelectField
 from wtforms.validators import Required
 
-class MinutePitchForm(FlaskForm):
+class BlogForm(FlaskForm):
     title = StringField('Blog title',validators=[Required()])
     content = StringField('content',validators=[Required()])
     category = SelectField('Category', choices=[('Choose Category', 'Choose Category'),('emotional', 'emotional'),('skills', 'skills')])

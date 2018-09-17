@@ -2,8 +2,8 @@ from flask import Flask
 from . import main
 from flask import render_template,redirect, request, url_for,abort,flash
 from flask_login import login_required, current_user
-from ..models import User,Blog
-from .forms import UpdateProfile
+from ..models import User,Blog,Comment
+from .forms import UpdateProfile,BlogForm,CommentForm
 from .. import db,photos
 
 
@@ -62,51 +62,51 @@ def update_pic(uname):
         
     return redirect(url_for('main.profile',uname=uname))
 
-@main.route('/pitch/new', methods=['GET', 'POST'])  
+@main.route('/blog/new', methods=['GET', 'POST'])  
 @login_required
-def new_pitch():
-    form= MinutePitchForm()
+def new_blog():
+    form= BlogForm()
 
     if form.validate_on_submit():
         title = form.title.data 
         content = form.content.data 
         category = form.category.data 
 
-        pitch = Pitch(title = title,content = content, category = category)
+        blog = Blog(title = title,content = content, category = category)
 
-        db.session.add(pitch)
+        db.session.add(blog)
         db.session.commit()
 
         print('yvonne')
         flash('Creating pitch has been successful!')
-        return redirect(url_for('main.one_pitch', id = pitch.id))
+        return redirect(url_for('main.single_blog', id = blog.id))
 
 
-    return render_template('newP.html', title='New Pitch',pitch_form = form, legend = 'New Pitch')
+    return render_template('newB.html', title='New Blog',pitch_form = form, legend = 'New Blog')
 
-@main.route('/pitch/new/<int:id>')
-def one_pitch(id):
-    pitch = Pitch.query.get(id)
-    return render_template('onePitch.html', pitch = pitch)
+@main.route('/blog/new/<int:id>')
+def single_blog(id):
+    blog = Blog.query.get(id)
+    return render_template('singleBlog.html', blog = blog)
 
 
 
 @main.route('/pitch/<int:pitch_id>/',methods = ["GET","POST"])
 @login_required
-def pitch(pitch_id):
-    pitch = Pitch.query.filter_by(id=pitch_id)
+def blog(blog_id):
+    blog = Blog.query.filter_by(id=blog_id)
     form = CommentForm()
 
     if form.validate_on_submit():
         title = form.title.data 
         comment = form.comment.data 
-        new_pitch_comment = Comment(title = title,comment=comment,pitch_id = pitch_id)
+        new_blog_comment = Comment(title = title,comment=comment,blog_id = blog_id)
 
-        db.session.add(new_pitch_comment) 
+        db.session.add(new_blog_comment) 
         db.session.commit()
 
-    comments = Comment.query.filter_by(pitch_id=pitch_id)
-    return render_template('comment_pitch.html', title = 'pitch', pitch =pitch, pitch_form = form, comments = comments) 
+    comments = Comment.query.filter_by(blog_id=blog_id)
+    return render_template('comment_blog.html', title = 'blog', blog =blog, blog_form = form, comments = comments) 
 
 
 
