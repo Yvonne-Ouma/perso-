@@ -15,13 +15,15 @@
                 <div class="panel-heading">
                     <h4>Category: {{ blog.category }}</h4>
                 </div>
+
                 <div class="panel-body">
                     <p> {{ blog.title }}</p>
                     <p>{{ blog.content }} </p>
                     <p>{{ blog.posted}}</p>
                     <div class="panel-footer">Add a comment <a href="/blog/{{blog.id}}">Here</a></div>
-                    <a href="/delete/{{category.id}}"><button>Delete Blog</button></a></p>
-{% endif %}
+                    {% if current_user.is_authenticated %}
+                    <p>Want to delete:<a href="/delete/{{title.id}}">Delete Blog</a></p>
+                   {% endif %}
                 </div>
             </div>
         </div>
