@@ -20,9 +20,10 @@
                     <p> {{ blog.title }}</p>
                     <p>{{ blog.content }} </p>
                     <p>{{ blog.posted}}</p>
-                    <div class="panel-footer">Add a comment <a href="/blog/{{blog.id}}">Here</a></div>
+                    <div class="panel-footer">Add a comment <a href="/blog/{{blog.id}}">Here</a>
                     {% if current_user.is_authenticated %}
-                    <p>Want to delete:<a href="/delete/{{title.id}}">Delete Blog</a></p>
+                   <p>Want to delete:<a href="/delete/{{blog.id}}">Delete Blog</a></p>
+                   </div>
                    {% endif %}
                 </div>
             </div>

@@ -108,13 +108,13 @@ def blog(blog_id):
     comments = Comment.query.filter_by(blog_id=blog_id)
     return render_template('comment_blog.html', title = 'blog', blog =blog, blog_form = form, comments = comments) 
 
-# @main.route('/delete/<int:id>')
-# @login_required
-# def delete(id):
-#     del_comment = Comments.query.get(id)
-#     db.session.delete(del_comment)
-#     db.session.commit()
-#     return redirect(url_for('main.'))
+@main.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    del_blog = Blog.query.get(id)
+    db.session.delete(del_blog)
+    db.session.commit()
+    return redirect(url_for('main.index'))
 
 
 
