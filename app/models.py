@@ -18,7 +18,7 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
 
-    # pitches = db.relationship('Pitch',backref = 'author',lazy="dynamic") 
+    blogs = db.relationship('blog',backref = 'author',lazy="dynamic") 
     # comments = db.relationship('Comment', backref = 'author', lazy = "dynamic")
     
     def save_user(self, user):
@@ -39,3 +39,17 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User {self.username} {self.bio} {self.email}'
+
+class blog(db.Model):
+    __tablename__ = 'blog'
+
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(255))
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    content = db.Column(db.String(255))
+    category = db.Column(db.String(255))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    # comments = db.relationship('Comment',backref = 'blog',lazy="dynamic")
+    
+
+
