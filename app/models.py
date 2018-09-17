@@ -84,10 +84,37 @@ class Comment(db.Model):
     @classmethod
     def get_comment(cls,id):
         comments = Comment.query.filter_by(comment_id=id).all()
-        return comments     
+        return comments 
+
+    def delete_comment(self):
+        db.session.query(Comment).delete()
+        db.session.commit()    
 
     def __repr__(self):
-        return f'Comment{self.title}'       
+        return f'Comment{self.title}'  
+
+
+class Subscribe(UserMixin, db.Model):
+    __tablename__="subscribe"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    email = db.Column(db.String(255),unique = True,index = True)
+
+
+    def save_subscribe(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_subscribe(cls,id):
+        return Subscribe.query.all()
+         
+
+    def __repr__(self):
+        return f'User {self.email}'
+
     
 
 

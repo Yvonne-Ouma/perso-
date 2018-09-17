@@ -89,6 +89,14 @@ def single_blog(id):
     blog = Blog.query.get(id)
     return render_template('singleBlog.html', blog = blog)
 
+@main.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    del_blog = Blog.query.get(id)
+    db.session.delete(del_blog)
+    db.session.commit()
+    return redirect(url_for('main.index'))    
+
 
 
 @main.route('/blog/<int:blog_id>/',methods = ["GET","POST"])
@@ -108,15 +116,18 @@ def blog(blog_id):
     comments = Comment.query.filter_by(blog_id=blog_id)
     return render_template('comment_blog.html', title = 'blog', blog =blog, blog_form = form, comments = comments) 
 
-@main.route('/delete/<int:id>')
+@main.route('/remove/<int:id>')
 @login_required
-def delete(id):
-    del_blog = Blog.query.get(id)
-    db.session.delete(del_blog)
+def remove(id):
+    del_comment = Comment.query.get(id)
+    db.session.delete(del_comment)
     db.session.commit()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.new_blog.html'))
 
-    
+
+
+
+
 
 
 

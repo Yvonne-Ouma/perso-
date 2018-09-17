@@ -29,6 +29,11 @@
                 <small class="text-muted">{{ comment.blogs }}</small>
             </div>
             <p class="article-content">{{ comment.comment }}</p>
+            {% if current_user.is_authenticated %}
+            <p>Want to delete:<a href="/remove/{{comment.id}}">Delete comment</a></p>
+            </div>
+            {% endif %}
+
         </div>
 
     </article>
