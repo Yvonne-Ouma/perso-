@@ -40,7 +40,7 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username} {self.bio} {self.email}'
 
-class blog(db.Model):
+class Blog(db.Model):
     __tablename__ = 'blog'
 
     id = db.Column(db.Integer, primary_key = True)
