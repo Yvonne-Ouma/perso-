@@ -61,3 +61,57 @@ def update_pic(uname):
 
         
     return redirect(url_for('main.profile',uname=uname))
+
+@main.route('/pitch/new', methods=['GET', 'POST'])  
+@login_required
+def new_pitch():
+    form= MinutePitchForm()
+
+    if form.validate_on_submit():
+        title = form.title.data 
+        content = form.content.data 
+        category = form.category.data 
+
+        pitch = Pitch(title = title,content = content, category = category)
+
+        db.session.add(pitch)
+        db.session.commit()
+
+        print('yvonne')
+        flash('Creating pitch has been successful!')
+        return redirect(url_for('main.one_pitch', id = pitch.id))
+
+
+    return render_template('newP.html', title='New Pitch',pitch_form = form, legend = 'New Pitch')
+
+@main.route('/pitch/new/<int:id>')
+def one_pitch(id):
+    pitch = Pitch.query.get(id)
+    return render_template('onePitch.html', pitch = pitch)
+
+
+
+@main.route('/pitch/<int:pitch_id>/',methods = ["GET","POST"])
+@login_required
+def pitch(pitch_id):
+    pitch = Pitch.query.filter_by(id=pitch_id)
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        title = form.title.data 
+        comment = form.comment.data 
+        new_pitch_comment = Comment(title = title,comment=comment,pitch_id = pitch_id)
+
+        db.session.add(new_pitch_comment) 
+        db.session.commit()
+
+    comments = Comment.query.filter_by(pitch_id=pitch_id)
+    return render_template('comment_pitch.html', title = 'pitch', pitch =pitch, pitch_form = form, comments = comments) 
+
+
+
+
+
+
+
+
