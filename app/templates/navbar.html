@@ -28,7 +28,9 @@
 
                     {% if current_user.is_authenticated %}
                     <li><a href="{{url_for('main.profile',uname=current_user.username)}}">View Profile</a></li>
+                    <li><a href="/subscribe/"></span> Subscribe</a></li>
                     <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
+
                     <li>"{{current_user.uname}}"</li>
                     {% else %}
                     <li><a href="{{url_for('auth.login')}}">Sign in</a></li>

@@ -75,8 +75,15 @@ def new_blog():
 
         blog = Blog(title = title,content = content, category = category)
 
+
         db.session.add(blog)
         db.session.commit()
+
+        blog.save_blog()
+        subs = Subscribe.query.all()
+        for sub in subs:
+            mail_message("New Blog", "email/welcome_subscribe", sub.email)
+        return redirect(url_for('main.index'))
 
         print('yvonne')
         flash('Creating blog has been successful!')
@@ -125,16 +132,15 @@ def remove(id):
     db.session.commit()
     return redirect(url_for('main.new_blog.html'))
 
-@main.route('/', methods=['GET','POST'])
+@main.route('/subscribe/', methods=['GET','POST'])
 def subscribe():
     subForm=SubscribeForm()
     if subForm.validate_on_submit():
         subscribe= Subscribe(email=subForm.email.data,title = subForm.title.data)
         db.session.add(subscribe)
-        db.session.commit()
-        mail_message("Hey Welcome To Blog Platform","email/welcome_subscribe",subscribe.email,subscribe=subscribe)
-    subscribe = Blog.query.all()
-    return render_template('index.html',subscribe=subscribe,subForm=subForm)    
+        db.session.commit() 
+        return redirect(url_for('main.index')) 
+    return render_template('subscription.html',subForm=subForm)    
     
 
 
