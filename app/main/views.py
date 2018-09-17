@@ -83,7 +83,7 @@ def new_blog():
         subs = Subscribe.query.all()
         for sub in subs:
             mail_message("New Blog", "email/welcome_subscribe", sub.email)
-        return redirect(url_for('main.index'))
+            return redirect(url_for('main.index'))
 
         print('yvonne')
         flash('Creating blog has been successful!')
