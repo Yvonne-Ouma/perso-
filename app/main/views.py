@@ -82,7 +82,7 @@ def new_blog():
         return redirect(url_for('main.single_blog', id = blog.id))
 
 
-    return render_template('newB.html', title='New Blog',pitch_form = form, legend = 'New Blog')
+    return render_template('newB.html', title='New Blog',blog_form = form, legend = 'New Blog')
 
 @main.route('/blog/new/<int:id>')
 def single_blog(id):
@@ -107,6 +107,14 @@ def blog(blog_id):
 
     comments = Comment.query.filter_by(blog_id=blog_id)
     return render_template('comment_blog.html', title = 'blog', blog =blog, blog_form = form, comments = comments) 
+
+# @main.route('/delete/<int:id>')
+# @login_required
+# def delete(id):
+#     del_comment = Comments.query.get(id)
+#     db.session.delete(del_comment)
+#     db.session.commit()
+#     return redirect(url_for('main.'))
 
 
 

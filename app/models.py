@@ -59,7 +59,11 @@ class Blog(db.Model):
     @classmethod
     def get_blog(cls,id):
         blogs = Blog.query.filter_by(blog_id=id).all()
-        return blogs 
+        return blogs
+
+    def delete_blog(self):
+        db.session.query(Blog).delete()
+        db.session.commit() 
 
     def __repr__(self):
         return f'User {self.title}'
