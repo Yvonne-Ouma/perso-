@@ -18,7 +18,7 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
 
-    blogs = db.relationship('blog',backref = 'author',lazy="dynamic") 
+    blogs = db.relationship('Blog',backref = 'author',lazy="dynamic") 
     # comments = db.relationship('Comment', backref = 'author', lazy = "dynamic")
     
     def save_user(self, user):
