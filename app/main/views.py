@@ -2,9 +2,10 @@ from flask import Flask
 from . import main
 from flask import render_template,redirect, request, url_for,abort,flash
 from flask_login import login_required, current_user
-from ..models import User,Blog,Comment
-from .forms import UpdateProfile,BlogForm,CommentForm
+from ..models import User,Blog,Comment,Subscribe
+from .forms import UpdateProfile,BlogForm,CommentForm,SubscribeForm
 from .. import db,photos
+from ..email import mail_message
 
 
 app = Flask(__name__)
@@ -123,6 +124,19 @@ def remove(id):
     db.session.delete(del_comment)
     db.session.commit()
     return redirect(url_for('main.new_blog.html'))
+
+@main.route('/', methods=['GET','POST'])
+def subscribe():
+    subForm=SubscribeForm()
+    if subForm.validate_on_submit():
+        subscribe= Subscribe(email=subForm.email.data,title = subForm.title.data)
+        db.session.add(subscribe)
+        db.session.commit()
+        mail_message("Hey Welcome To Blog Platform","email/welcome_subscribe",subscribe.email,subscribe=subscribe)
+    subscribe = Blog.query.all()
+    return render_template('index.html',subscribe=subscribe,subForm=subForm)    
+    
+
 
 
 
