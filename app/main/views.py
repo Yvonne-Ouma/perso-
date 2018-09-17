@@ -91,7 +91,7 @@ def single_blog(id):
 
 
 
-@main.route('/pitch/<int:pitch_id>/',methods = ["GET","POST"])
+@main.route('/blog/<int:blog_id>/',methods = ["GET","POST"])
 @login_required
 def blog(blog_id):
     blog = Blog.query.filter_by(id=blog_id)
