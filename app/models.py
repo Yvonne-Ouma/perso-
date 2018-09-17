@@ -52,6 +52,15 @@ class Blog(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     # comments = db.relationship('Comment',backref = 'blog',lazy="dynamic")
 
+    def save_blog(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_blog(cls,id):
+        blogs = Blog.query.filter_by(blog_id=id).all()
+        return blogs 
+
     def __repr__(self):
         return f'User {self.title}'
     

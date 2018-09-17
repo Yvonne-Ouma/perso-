@@ -2,7 +2,7 @@ from flask import Flask
 from . import main
 from flask import render_template,redirect, request, url_for,abort,flash
 from flask_login import login_required, current_user
-from ..models import User
+from ..models import User,Blog
 from .forms import UpdateProfile
 from .. import db,photos
 
@@ -17,9 +17,9 @@ def index():
     title = "Welcome to my personal blog"
     '''
     title = 'Welcome to my personal blog'
-    # pitches = Pitch.query.all()
+    blogs = Blog.query.all()
 
-    return render_template('index.html', title= title)
+    return render_template('index.html', title= title, blogs = blogs)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -60,4 +60,4 @@ def update_pic(uname):
         db.session.commit()
 
         
-    return redirect(url_for('main.profile',uname=uname))    
+    return redirect(url_for('main.profile',uname=uname))
