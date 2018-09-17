@@ -78,7 +78,7 @@ def new_blog():
         db.session.commit()
 
         print('yvonne')
-        flash('Creating pitch has been successful!')
+        flash('Creating blog has been successful!')
         return redirect(url_for('main.single_blog', id = blog.id))
 
 
